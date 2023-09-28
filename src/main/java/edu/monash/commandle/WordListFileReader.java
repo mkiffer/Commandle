@@ -13,13 +13,16 @@ public class WordListFileReader {
     public WordListFileReader(String dictionaryFileName){
         this.dictionaryFileName = dictionaryFileName;
     }
-    public List<String> getWordList(String dictionaryFileName) throws NullPointerException {
+    public List<String> getWordList(String dictionaryFileName) throws NullPointerException, IllegalArgumentException {
         final List<String> wordList = new ArrayList<>();
         try{
             URL path = getPath(dictionaryFileName);
             File file = new File(path.getFile());
             try (FileReader fr = new FileReader(file)) {
                 BufferedReader br = new BufferedReader(fr);  //creates a buffering character input stream
+                if(!br.ready()){
+                    throw new IllegalArgumentException("This file is empty");
+                }
                 String line;
                 while ((line = br.readLine()) != null) {
                     wordList.add(line.trim().toLowerCase());

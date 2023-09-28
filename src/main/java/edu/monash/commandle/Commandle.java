@@ -1,7 +1,6 @@
 package edu.monash.commandle;
 
 import java.io.*;
-import java.net.URL;
 import java.util.*;
 import java.time.*;
 
@@ -29,7 +28,6 @@ public class Commandle{
      * * The actual letter shows that it's in the right position.
      *
      * @param args Optional argument that points to a dictionary file of allowed words.
-     * @throws IOException
      */
     public static void main(String[] args) throws IOException {
         wins = 0;
@@ -53,10 +51,7 @@ public class Commandle{
             List<String> wordList = gameFileReader.getWordList(dictionaryFileName);
             start(in, out, wordList);
         }
-        catch (IllegalArgumentException e){
-            System.err.print(e.getMessage());
-        }
-        catch (NullPointerException e){
+        catch (IllegalArgumentException | NullPointerException e){
             System.err.print(e.getMessage());
         }
 
@@ -103,7 +98,7 @@ public class Commandle{
 
 
     static void gameLoopWithTarget(LocalDate currentDate, LocalDateTime currentTime, LocalDateTime endOfDay,Scanner scanner,
-                         GameBoard gameBoard, PrintStream out, String target, int maxTries) {
+                         GameBoard gameBoard, PrintStream out, String target, int maxTries) throws IllegalArgumentException{
 
         boolean keepPlaying = true;
 
@@ -147,7 +142,7 @@ public class Commandle{
     }
 
     static void gameLoop(LocalDate currentDate, LocalDateTime currentTime, LocalDateTime endOfDay,Scanner scanner,
-                         GameBoard gameBoard, PrintStream out, int maxTries){
+                         GameBoard gameBoard, PrintStream out, int maxTries) throws IllegalArgumentException{
         boolean keepPlaying = true;
         do {
             LocalDateTime startTime = LocalDateTime.now();
@@ -280,9 +275,8 @@ public class Commandle{
 
     }
     private static boolean playAnotherGame(String playAgain, Scanner scanner){
-        boolean incorrectInput = true;
         boolean output = true;
-        while(incorrectInput){
+        while(true){
             if("N".equalsIgnoreCase(playAgain)){
                 output = false;
                 break;

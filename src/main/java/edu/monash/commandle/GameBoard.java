@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class GameBoard {
     public enum Status {
-        correct, wrong, partial;
+        correct, wrong, partial
     }
 
     private String target;
@@ -21,30 +21,12 @@ public class GameBoard {
         this.wordList = wordList;
     }
 
-    public void startGame() throws IllegalArgumentException{
+    public void startGame(){
         int size = wordList.size();
-        if(size < 1){
-            throw new IllegalArgumentException("This file is empty");
-        }
         target = wordList.get(new Random().nextInt(size)).toLowerCase();
-//        System.err.println("\ntarget w = " + target);
     }
 
-   /** public Status[] isInTarget(char[] word) {
-        Status[] result = new Status[target.length()];
 
-        for (int i = 0; i < target.length(); i++) {
-            if (word[i] == target.charAt(i)) {
-                result[i] = Status.correct;
-            } else if (target.indexOf(word[i]) >= 0) {
-                result[i] = Status.partial;
-            } else {
-                result[i] = Status.wrong;
-            }
-        }
-        return result;
-    }
-*/
    public Status[] isInTarget(char[] word) {
        Status[] result = new Status[target.length()];
        boolean[] usedIndices = new boolean[target.length()];

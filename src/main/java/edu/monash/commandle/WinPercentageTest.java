@@ -2,7 +2,6 @@ package edu.monash.commandle;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -10,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WinPercentageTest {
@@ -18,14 +18,9 @@ public class WinPercentageTest {
 
     private List<String> wordList;
     private ByteArrayOutputStream testOut;
-    private ByteArrayOutputStream errOut;
 
     private String getOutput() {
         return testOut.toString();
-    }
-
-    private String getError() {
-        return errOut.toString();
     }
 
     private void provideInput(String guess) {
@@ -35,7 +30,7 @@ public class WinPercentageTest {
 
     @BeforeEach
     void setUp() {
-        wordList = new ArrayList<String>();
+        wordList = new ArrayList<>();
         testOut = new ByteArrayOutputStream();
         System.setOut(new PrintStream(testOut));
 
@@ -88,14 +83,26 @@ public class WinPercentageTest {
         provideInput("hello\nY\nhello\nY\nhello\nY\nhello\nN");
         Commandle.startWithTarget(System.in, System.out, wordList, "hello",6);
         String output = getOutput();
-        String expectedOutput = "Please enter your guess: 1: hello  1: hello\r\nCongratulations, you won!" +
-                "\r\nYour daily win percentage is: 100%.\r\nPlay again? (Y/N)\r\nPlease enter your guess: 1: " +
-                "hello  1: hello\r\nCongratulations, you won!\r\nYour daily win percentage is: 100%.\r\nPlay again? " +
-                "(Y/N)\r\nPlease enter your guess: 1: hello  1: hello\r\nCongratulations, you won!\r\nYour daily win " +
-                "percentage is: 100%.\r\nPlay again? (Y/N)\r\nPlease enter your guess: 1: hello  1: hello\r\n" +
-                "Congratulations, you won!\r\nYour daily win percentage is: 100%.\r\nPlay again? (Y/N)\r\n" +
-                "See you next time!\r\n";
-        assertTrue(output.equals(expectedOutput));
+        String expectedOutput = """
+                Please enter your guess: 1: hello  1: hello\r
+                Congratulations, you won!\r
+                Your daily win percentage is: 100%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: hello  1: hello\r
+                Congratulations, you won!\r
+                Your daily win percentage is: 100%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: hello  1: hello\r
+                Congratulations, you won!\r
+                Your daily win percentage is: 100%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: hello  1: hello\r
+                Congratulations, you won!\r
+                Your daily win percentage is: 100%.\r
+                Play again? (Y/N)\r
+                See you next time!\r
+                """;
+        assertEquals(output, expectedOutput);
 
     }
     /**
@@ -107,31 +114,74 @@ public class WinPercentageTest {
         for(int i = 0; i<10; i++){
             wordList.add("hello");
         }
-        provideInput("hello\nY\nhello\nY\nhello\nY\nhello\nY\nhello\nY\nhello\nY" +
-                "\nhello\nY\nhello\nY\nhello\nY\nhello\nY");
+        provideInput("""
+                hello
+                Y
+                hello
+                Y
+                hello
+                Y
+                hello
+                Y
+                hello
+                Y
+                hello
+                Y
+                hello
+                Y
+                hello
+                Y
+                hello
+                Y
+                hello
+                Y""");
         Commandle.startWithTarget(System.in, System.out, wordList, "hello",6);
         String output = getOutput();
-        String expectedOutput = "Please enter your guess: 1: hello  1: hello\r\nCongratulations, you won!" +
-                "\r\nYour daily win percentage is: 100%.\r\nPlay again? (Y/N)\r\nPlease enter your guess: 1: " +
-                "hello  1: hello\r\nCongratulations, you won!\r\nYour daily win percentage is: 100%.\r\nPlay again? " +
-                "(Y/N)\r\nPlease enter your guess: 1: hello  1: hello\r\nCongratulations, you won!\r\nYour daily win " +
-                "percentage is: 100%.\r\nPlay again? (Y/N)\r\nPlease enter your guess: 1: hello  1: hello\r\n" +
-                "Congratulations, you won!\r\nYour daily win percentage is: 100%.\r\nPlay again? (Y/N)\r\n" +
-                "Please enter your guess: 1: " +
-                "hello  1: hello\r\nCongratulations, you won!\r\nYour daily win percentage is: 100%.\r\nPlay again? " +
-                "(Y/N)\r\nPlease enter your guess: 1: " +
-                "hello  1: hello\r\nCongratulations, you won!\r\nYour daily win percentage is: 100%.\r\nPlay again? " +
-                "(Y/N)\r\nPlease enter your guess: 1: " +
-                "hello  1: hello\r\nCongratulations, you won!\r\nYour daily win percentage is: 100%.\r\nPlay again? " +
-                "(Y/N)\r\nPlease enter your guess: 1: " +
-                "hello  1: hello\r\nCongratulations, you won!\r\nYour daily win percentage is: 100%.\r\nPlay again? " +
-                "(Y/N)\r\nPlease enter your guess: 1: " +
-                "hello  1: hello\r\nCongratulations, you won!\r\nYour daily win percentage is: 100%.\r\nPlay again? " +
-                "(Y/N)\r\nPlease enter your guess: 1: " +
-                "hello  1: hello\r\nCongratulations, you won!\r\nYour daily win percentage is: 100%.\r\nPlay again? " +
-                "(Y/N)" +
-                "\r\nyou have reached the maximum number of games played today\r\nSee you next time!\r\n";
-        assertTrue(output.equals(expectedOutput));
+        String expectedOutput = """
+                Please enter your guess: 1: hello  1: hello\r
+                Congratulations, you won!\r
+                Your daily win percentage is: 100%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: hello  1: hello\r
+                Congratulations, you won!\r
+                Your daily win percentage is: 100%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: hello  1: hello\r
+                Congratulations, you won!\r
+                Your daily win percentage is: 100%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: hello  1: hello\r
+                Congratulations, you won!\r
+                Your daily win percentage is: 100%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: hello  1: hello\r
+                Congratulations, you won!\r
+                Your daily win percentage is: 100%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: hello  1: hello\r
+                Congratulations, you won!\r
+                Your daily win percentage is: 100%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: hello  1: hello\r
+                Congratulations, you won!\r
+                Your daily win percentage is: 100%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: hello  1: hello\r
+                Congratulations, you won!\r
+                Your daily win percentage is: 100%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: hello  1: hello\r
+                Congratulations, you won!\r
+                Your daily win percentage is: 100%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: hello  1: hello\r
+                Congratulations, you won!\r
+                Your daily win percentage is: 100%.\r
+                Play again? (Y/N)\r
+                you have reached the maximum number of games played today\r
+                See you next time!\r
+                """;
+        assertEquals(output, expectedOutput);
 
     }
 
@@ -146,14 +196,29 @@ public class WinPercentageTest {
         provideInput("hello\nY\ntrain\nY\ntrain\nY\ntrain\nN");
         Commandle.startWithTarget(System.in, System.out, wordList, "hello", 1);
         String output = getOutput();
-        String expectedOutput = "Please enter your guess: 1: hello  1: hello\r\nCongratulations, you won!" +
-                "\r\nYour daily win percentage is: 100%.\r\nPlay again? (Y/N)\r\nPlease enter your guess: 1: " +
-                "train  1: #####\r\nSorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 50%.\r\nPlay again? " +
-                "(Y/N)\r\nPlease enter your guess: 1: train  1: #####\r\nSorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 33%." +
-                "\r\nPlay again? (Y/N)\r\nPlease enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 25%.\r\nPlay again? (Y/N)\r\n" +
-                "See you next time!\r\n";
-        assertTrue(output.equals(expectedOutput));
+        String expectedOutput = """
+                Please enter your guess: 1: hello  1: hello\r
+                Congratulations, you won!\r
+                Your daily win percentage is: 100%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 50%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 33%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 25%.\r
+                Play again? (Y/N)\r
+                See you next time!\r
+                """;
+        assertEquals(output, expectedOutput);
 
     }
     /**
@@ -167,31 +232,60 @@ public class WinPercentageTest {
         provideInput("hello\nY\ntrain\nY\ntrain\nY\ntrain\nY\ntrain\nY\ntrain\nY\ntrain\nY\ntrain\nY\ntrain\nY\ntrain\nY");
         Commandle.startWithTarget(System.in, System.out, wordList, "hello", 1);
         String output = getOutput();
-        String expectedOutput = "Please enter your guess: 1: hello  1: hello\r\nCongratulations, you won!" +
-                "\r\nYour daily win percentage is: 100%.\r\nPlay again? (Y/N)\r\n" +
-                "Please enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 50%.\r\nPlay again? " +
-                "(Y/N)\r\n" +
-                "Please enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\n" +
-                "correct word was hello\r\nYour daily win percentage is: 33%." +
-                "\r\nPlay again? (Y/N)\r\nPlease enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 25%.\r\nPlay again? (Y/N)\r\n" +
-                "Please enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 20%.\r\nPlay again? (Y/N)\r\n" +
-                "Please enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 16%.\r\nPlay again? (Y/N)\r\n" +
-                "Please enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 14%.\r\nPlay again? (Y/N)\r\n" +
-                "Please enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 12%.\r\nPlay again? (Y/N)\r\n" +
-                "Please enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 11%.\r\nPlay again? (Y/N)\r\n" +
-                "Please enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 10%.\r\nPlay again? (Y/N)\r\n" +
-                "you have reached the maximum number of games played today\r\n" +
-                "See you next time!\r\n";
-        assertTrue(output.equals(expectedOutput));
+        String expectedOutput = """
+                Please enter your guess: 1: hello  1: hello\r
+                Congratulations, you won!\r
+                Your daily win percentage is: 100%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 50%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 33%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 25%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 20%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 16%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 14%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 12%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 11%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 10%.\r
+                Play again? (Y/N)\r
+                you have reached the maximum number of games played today\r
+                See you next time!\r
+                """;
+        assertEquals(output, expectedOutput);
 
     }
     /**
@@ -205,14 +299,30 @@ public class WinPercentageTest {
         provideInput("train\nY\ntrain\nY\ntrain\nY\ntrain\nN");
         Commandle.startWithTarget(System.in, System.out, wordList, "hello", 1);
         String output = getOutput();
-        String expectedOutput = "Please enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 0%.\r\nPlay again? (Y/N)\r\nPlease enter your guess: 1: " +
-                "train  1: #####\r\nSorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 0%.\r\nPlay again? " +
-                "(Y/N)\r\nPlease enter your guess: 1: train  1: #####\r\nSorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 0%." +
-                "\r\nPlay again? (Y/N)\r\nPlease enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 0%.\r\nPlay again? (Y/N)\r\n" +
-                "See you next time!\r\n";
-        assertTrue(output.equals(expectedOutput));
+        String expectedOutput = """
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 0%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 0%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 0%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 0%.\r
+                Play again? (Y/N)\r
+                See you next time!\r
+                """;
+        assertEquals(output, expectedOutput);
 
     }
     /**
@@ -226,29 +336,61 @@ public class WinPercentageTest {
         provideInput("train\nY\ntrain\nY\ntrain\nY\ntrain\nY\ntrain\nY\ntrain\nY\ntrain\nY\ntrain\nY\ntrain\nY\ntrain\nY");
         Commandle.startWithTarget(System.in, System.out, wordList, "hello", 1);
         String output = getOutput();
-        String expectedOutput = "Please enter your guess: 1: train  1: #####\r\nSorry, you lost!\r\ncorrect word was hello" +
-                "\r\nYour daily win percentage is: 0%.\r\nPlay again? (Y/N)\r\n" +
-                "Please enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 0%.\r\nPlay again? " +
-                "(Y/N)\r\n" +
-                "Please enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 0%." +
-                "\r\nPlay again? (Y/N)\r\nPlease enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 0%.\r\nPlay again? (Y/N)\r\n" +
-                "Please enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 0%.\r\nPlay again? (Y/N)\r\n" +
-                "Please enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 0%.\r\nPlay again? (Y/N)\r\n" +
-                "Please enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 0%.\r\nPlay again? (Y/N)\r\n" +
-                "Please enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 0%.\r\nPlay again? (Y/N)\r\n" +
-                "Please enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 0%.\r\nPlay again? (Y/N)\r\n" +
-                "Please enter your guess: 1: train  1: #####\r\n" +
-                "Sorry, you lost!\r\ncorrect word was hello\r\nYour daily win percentage is: 0%.\r\nPlay again? (Y/N)\r\n" +
-                "you have reached the maximum number of games played today\r\nSee you next time!\r\n";
-        assertTrue(output.equals(expectedOutput));
+        String expectedOutput = """
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 0%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 0%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 0%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 0%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 0%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 0%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 0%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 0%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 0%.\r
+                Play again? (Y/N)\r
+                Please enter your guess: 1: train  1: #####\r
+                Sorry, you lost!\r
+                correct word was hello\r
+                Your daily win percentage is: 0%.\r
+                Play again? (Y/N)\r
+                you have reached the maximum number of games played today\r
+                See you next time!\r
+                """;
+        assertEquals(output, expectedOutput);
 
     }
 

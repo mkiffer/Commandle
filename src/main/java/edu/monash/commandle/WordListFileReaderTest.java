@@ -24,7 +24,7 @@ public class WordListFileReaderTest {
     private List<String> wordList;
     private ByteArrayOutputStream testOut;
 
-    @BeforeEach
+
     @Test
     void fileNotFoundException() throws NullPointerException {
         String fileName = "noFile.txt";
