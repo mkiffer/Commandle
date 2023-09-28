@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WordListFileReader {
-    String dictionaryFileName;
+    private String dictionaryFileName;
+
     public WordListFileReader(String dictionaryFileName){
         this.dictionaryFileName = dictionaryFileName;
     }
