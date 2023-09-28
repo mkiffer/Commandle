@@ -32,6 +32,7 @@ class CommandleTest {
     void setUp() {
         wordList = new ArrayList<String>();
         testOut = new ByteArrayOutputStream();
+        errOut = new ByteArrayOutputStream();
         System.setOut(new PrintStream(testOut));
     }
 
@@ -202,7 +203,6 @@ class CommandleTest {
     void fileNotFoundErrorMessage(){
         String[] args = new String[1];
         args[0] = "noFile.txt";
-        errOut = new ByteArrayOutputStream();
         System.setErr(new PrintStream(errOut));
         Commandle.start(systemIn, systemOut, args);
         assertEquals("This file cannot be found", getError());
@@ -213,7 +213,6 @@ class CommandleTest {
     void fileIsEmptyErrorMessage() {
         String[] args = new String[1];
         args[0] = "blank.txt";
-        errOut = new ByteArrayOutputStream();
         System.setErr(new PrintStream(errOut));
         Commandle.start(systemIn, systemOut, args);
         String output = getError();
@@ -222,14 +221,40 @@ class CommandleTest {
 
     @Test
     void needMoreInputErrorMessage(){
-        errOut = new ByteArrayOutputStream();
-        wordList.add("train");
         System.setErr(new PrintStream(errOut));
         provideInput("train\n");
         Commandle.startWithTarget(System.in, System.out, wordList, "shard",6);
         String output = getError();
         assertTrue(output.equals("Need more input\r\n"));
     }
+
+    @Test
+    void timeDelayInterruptedExceptionHandled(){
+
+        assertThrowsExactly(AssertionError.class, ()->{
+            Thread.currentThread().interrupt();
+            Commandle.timeDelay();
+        });
+    }
+
+    @Test
+    void assertionErrorCaught(){
+        wordList.add("hello");
+        wordList.add("train");
+        provideInput("hello\nY\ntrain\n");
+        LocalDate currentDate = LocalDate.now();
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime endOfDay = LocalTime.MAX.atDate(currentDate);
+        GameBoard gameBoard = new GameBoard(wordList);
+        Scanner scanner = new Scanner(System.in);
+        System.setErr(new PrintStream(errOut));
+        String output = errOut.toString();
+
+        Thread.currentThread().interrupt();
+        Commandle.gameLoop(currentDate,currentTime,endOfDay,scanner,gameBoard,System.out,6);
+        assertTrue(output.contains("Time delay thread was interrupted, which is unexpected. Closing game..."));
+    }
+
 
 
 

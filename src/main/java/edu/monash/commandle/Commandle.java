@@ -73,6 +73,9 @@ public class Commandle{
             gameLoop(currentDate, currentTime,endOfDay,scanner, gameBoard, out, MAX_TRIES);
         }
         catch (NoSuchElementException e){
+            System.err.println("Need more input");
+        }
+        finally{
             scanner.close();
         }
         out.println("See you next time!");
@@ -90,16 +93,17 @@ public class Commandle{
         }
         catch (NoSuchElementException e){
             System.err.println("Need more input");
+        }
+        finally{
             scanner.close();
         }
         out.println("See you next time!");
 
-        scanner.close();
     }
 
 
     static void gameLoopWithTarget(LocalDate currentDate, LocalDateTime currentTime, LocalDateTime endOfDay,Scanner scanner,
-                         GameBoard gameBoard, PrintStream out, String target, int maxTries){
+                         GameBoard gameBoard, PrintStream out, String target, int maxTries) {
 
         boolean keepPlaying = true;
 
@@ -125,7 +129,13 @@ public class Commandle{
                 break;
             }
 
-            timeDelay();
+            try{
+                timeDelay(); //pause the game for 5 milliseconds
+            }
+            catch(AssertionError e){
+                System.err.println(e.getMessage());
+            }
+
 
             Duration elapsedTime = Duration.between(startTime, LocalDateTime.now());
             currentTime = currentTime.plus(elapsedTime);
@@ -158,7 +168,13 @@ public class Commandle{
                 out.println("you have reached the maximum number of games played today");
                 break;
             }
-            timeDelay(); //pause the game for 5 milliseconds
+            try{
+                timeDelay(); //pause the game for 5 milliseconds
+            }
+            catch(AssertionError e){
+                System.err.println(e.getMessage());
+                break;
+            }
 
             Duration elapsedTime = Duration.between(startTime, LocalDateTime.now());
             currentTime = currentTime.plus(elapsedTime);
@@ -252,12 +268,14 @@ public class Commandle{
         gameCount = 0;
     }
 
-    private static void timeDelay(){
+    public static void timeDelay() throws AssertionError{
         try {
             Thread.sleep(5); // Sleep for 5 milliseconds
         } catch (InterruptedException e) {
             // Handle any exceptions that may occur
-            e.printStackTrace();
+            System.err.println();
+            Thread.currentThread().interrupt();
+            throw new AssertionError("Time delay thread was interrupted, which is unexpected. Closing game...");
         }
 
     }
