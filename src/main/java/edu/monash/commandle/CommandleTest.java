@@ -248,10 +248,11 @@ class CommandleTest {
         GameBoard gameBoard = new GameBoard(wordList);
         Scanner scanner = new Scanner(System.in);
         System.setErr(new PrintStream(errOut));
-        String output = errOut.toString();
 
         Thread.currentThread().interrupt();
         Commandle.gameLoop(currentDate,currentTime,endOfDay,scanner,gameBoard,System.out,6);
+
+        String output = errOut.toString();
         assertTrue(output.contains("Time delay thread was interrupted, which is unexpected. Closing game..."));
     }
 
