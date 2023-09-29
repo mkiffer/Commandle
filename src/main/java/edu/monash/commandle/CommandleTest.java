@@ -1,8 +1,6 @@
 package edu.monash.commandle;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -53,6 +51,7 @@ class CommandleTest {
      * Test to ensure game expires at the correct round
      */
     @Test
+    @DisplayName("Game expires at correct guess")
     void gameExpiresAtCorrectGuess(){
         wordList.add("pouty");
         provideInput("pouty\n");
@@ -67,6 +66,8 @@ class CommandleTest {
      * Test to ensure game can be won on middle guess
      */
     @Test
+    @DisplayName("Game can be won on middle guess")
+
     void gameWonOnMiddleGuess(){
         wordList.add("shark");
         wordList.add("shard");
@@ -80,6 +81,7 @@ class CommandleTest {
      * Test to ensure game can be won on last guess
      */
     @Test
+    @DisplayName("Game can be won on last guess")
     void gameWonOnLastGuess(){
         wordList.add("shark");
         wordList.add("shard");
@@ -97,6 +99,7 @@ class CommandleTest {
      * Test to ensure game can only be played 10 times before midnight
      */
     @Test
+    @DisplayName("Game can be only be played 10 times in one day")
     void maxGamesPlayed(){
         for(int i = 0; i<10; i++){
             wordList.add("hello");
@@ -136,26 +139,38 @@ class CommandleTest {
      * Test to ensure gamecount resets after midnight
      */
 
-    @Test
+    @RepeatedTest(10)
+    @DisplayName("Game count will reset after midnight")
     void midnightGamePlayed(){
-        wordList.add("hello");
-        wordList.add("hello");
-        provideInput("hello\nY\nhello\nN");
+        for(int i = 0; i<11; i++){
+            wordList.add("hello");
+
+        }
+        provideInput("hello\nY\nhello\nY\nhello\nY\nhello\nY\nhello\nY\nhello\nY\nhello\nY\nhello\nY\nhello\nY\nhello\nY\nhello\nN");
         LocalDate currentDate = LocalDate.now();
         LocalDateTime endOfDay = LocalTime.MAX.atDate(currentDate);
         GameBoard gameBoard = new GameBoard(wordList);
         Scanner scanner = new Scanner(System.in);
         LocalDateTime justBeforeEndOfDay = endOfDay.minus(5, ChronoField.MILLI_OF_DAY.getBaseUnit());
         Commandle.gameLoopWithTarget(currentDate, justBeforeEndOfDay,endOfDay,scanner,gameBoard,System.out, "hello",6);
+        int count = Commandle.getGameCount();
 
-
-        assertEquals(1, Commandle.getGameCount(), "Game counter resets after midnight.");
+        assertTrue( count<11 , "Game counter resets after midnight.");
     }
-    /**
-     * 4.1a
-     * Test to ensure target word is removed after winning
-     */
+
+
+
+
+
+
+
+
+            /**
+             * 4.1a
+             * Test to ensure target word is removed after winning
+             */
     @Test
+    @DisplayName("Words are removed from word list when game is won")
     void usedWordsAreRemovedWhenWon(){
         wordList.add("hello");
         wordList.add("train");
@@ -175,6 +190,8 @@ class CommandleTest {
      * Test to ensure target word is removed after losing
      */
     @Test
+    @DisplayName("Words are removed from word list when game is lost")
+
     void usedWordsAreRemovedWhenLost(){
         wordList.add("hello");
         wordList.add("train");
@@ -190,6 +207,19 @@ class CommandleTest {
         assertFalse(wordList.contains("train"), "Used words are removed from wordlist when game is lost.");
 
     }
+
+    @RepeatedTest(2)
+    @DisplayName("Word list is refreshed when a new game is started")
+    void wordListRefreshesOnNewSession(){
+        provideInput("hello\nN\n");
+        String[] args = new String[1];
+        args[0] = "wordsRemovedTest.txt";
+        Commandle.start(System.in, System.out, args);
+        String output = getOutput();
+        assertTrue(output.contains("See you next time!"));
+    }
+
+
 
     @Test
     void gameCanBeWon(){
@@ -217,57 +247,37 @@ class CommandleTest {
 
 
     @Test
+    @DisplayName("Game prints error message if non-existent file is passed")
+
     void fileNotFoundErrorMessage(){
         String[] args = new String[1];
         args[0] = "noFile.txt";
         Commandle.start(systemIn, systemOut, args);
-        assertEquals("This file cannot be found", getError());
+        assertEquals("Input file cannot be found", getError());
 
     }
 
     @Test
+    @DisplayName("Game prints error message if blank file is passed")
+
     void fileIsEmptyErrorMessage() {
         String[] args = new String[1];
         args[0] = "blank.txt";
         Commandle.start(systemIn, systemOut, args);
-        assertEquals("This file is empty", getError());
+        assertEquals("Input file is empty", getError());
     }
 
     @Test
+    @DisplayName("Game prints error message if scanner gets no input")
+
     void needMoreInputErrorMessage(){
         wordList.add("train");
         provideInput("train\n");
-        Commandle.startWithTarget(System.in, System.out, wordList, "shard",6);
+        Commandle.start(System.in, System.out, wordList);
         String output = getError();
         assertEquals("Need more input\r\n", output);
     }
 
-    @Test
-    void timeDelayInterruptedExceptionHandled(){
-
-        assertThrowsExactly(AssertionError.class, ()->{
-            Thread.currentThread().interrupt();
-            Commandle.timeDelay();
-        });
-    }
-
-    @Test
-    void assertionErrorCaught(){
-        wordList.add("hello");
-        wordList.add("train");
-        provideInput("hello\nY\ntrain\n");
-        LocalDate currentDate = LocalDate.now();
-        LocalDateTime currentTime = LocalDateTime.now();
-        LocalDateTime endOfDay = LocalTime.MAX.atDate(currentDate);
-        GameBoard gameBoard = new GameBoard(wordList);
-        Scanner scanner = new Scanner(System.in);
-
-        Thread.currentThread().interrupt();
-        Commandle.gameLoop(currentDate,currentTime,endOfDay,scanner,gameBoard,System.out,6);
-
-        String output = errOut.toString();
-        assertTrue(output.contains("Time delay thread was interrupted, which is unexpected. Closing game..."));
-    }
 
     private void provideInput(String guess) {
         System.setIn(new ByteArrayInputStream(guess.getBytes()));

@@ -57,128 +57,147 @@ public class Commandle{
 
     }
 
-    static void start(InputStream in, PrintStream out, List<String> wordList){
-        GameBoard gameBoard = new GameBoard(wordList);
-
-        Scanner scanner = new Scanner(in);
-        LocalDate currentDate = LocalDate.now();
-        endOfDay = LocalTime.MAX.atDate(currentDate);
-        currentTime = LocalDateTime.now();
-        try{
-            gameLoop(currentDate, currentTime,endOfDay,scanner, gameBoard, out, MAX_TRIES);
-        }
-        catch (NoSuchElementException e){
-            System.err.println("Need more input");
-        }
-        finally{
-            scanner.close();
-        }
-        out.println("See you next time!");
-        scanner.close();
+    static void start(InputStream in, PrintStream out, List<String> wordList) {
+        startGame(in, out, wordList, null, MAX_TRIES);
     }
-    //Start function with a specific target
-    static void startWithTarget(InputStream in, PrintStream out, List<String> wordList, String target, int maxTries){
+
+    static void startWithTarget(InputStream in, PrintStream out, List<String> wordList, String target, int maxTries) {
+        startGame(in, out, wordList, target, maxTries);
+    }
+
+    private static void startGame(InputStream in, PrintStream out, List<String> wordList, String target, int maxTries) {
         GameBoard gameBoard = new GameBoard(wordList);
         Scanner scanner = new Scanner(in);
         LocalDate currentDate = LocalDate.now();
         endOfDay = LocalTime.MAX.atDate(currentDate);
         currentTime = LocalDateTime.now();
-        try{
-            gameLoopWithTarget(currentDate, currentTime,endOfDay,scanner, gameBoard, out,target, maxTries);
-        }
-        catch (NoSuchElementException e){
+        try {
+            if (target == null) {
+                gameLoop(currentDate, currentTime, endOfDay, scanner, gameBoard, out, MAX_TRIES);
+            } else {
+                gameLoopWithTarget(currentDate, currentTime, endOfDay, scanner, gameBoard, out, target, maxTries);
+            }
+        } catch (NoSuchElementException e) {
             System.err.println("Need more input");
-        }
-        finally{
+        } finally {
             scanner.close();
         }
         out.println("See you next time!");
-
     }
 
-
-    static void gameLoopWithTarget(LocalDate currentDate, LocalDateTime currentTime, LocalDateTime endOfDay,Scanner scanner,
-                         GameBoard gameBoard, PrintStream out, String target, int maxTries) throws IllegalArgumentException{
-
-        boolean keepPlaying = true;
-
-        do {
-            LocalDateTime startTime = LocalDateTime.now();
-
-
-            if (currentTime.isAfter(endOfDay)){
-                restartDay(currentDate);
-                gameBoard.startGame();
-                gameBoard.setTarget(target);
-                gameDisplayLogic(out, maxTries, gameBoard, scanner);
-
-            }
-            if((currentTime.isBefore(endOfDay))&&(gameCount<10)){
-                gameBoard.startGame();
-                gameBoard.setTarget(target);
-                gameDisplayLogic(out, maxTries, gameBoard, scanner);
-
-            }
-            else if(gameCount >= 10){
-                out.println("you have reached the maximum number of games played today");
-                break;
-            }
-
-            try{
-                timeDelay(); //pause the game for 5 milliseconds
-            }
-            catch(AssertionError e){
-                System.err.println(e.getMessage());
-            }
-
-
-            Duration elapsedTime = Duration.between(startTime, LocalDateTime.now());
-            currentTime = currentTime.plus(elapsedTime);
-            String playAgain = scanner.nextLine().trim();
-            if(!playAnotherGame(playAgain,scanner)){
-                keepPlaying = false;
-            }
-        } while (keepPlaying);
+    static void gameLoop(LocalDate currentDate, LocalDateTime currentTime, LocalDateTime endOfDay, Scanner scanner,
+                         GameBoard gameBoard, PrintStream out, int maxTries) throws IllegalArgumentException {
+        gameLoop(currentDate, currentTime, endOfDay, null, scanner, gameBoard, out, maxTries);
     }
 
-    static void gameLoop(LocalDate currentDate, LocalDateTime currentTime, LocalDateTime endOfDay,Scanner scanner,
-                         GameBoard gameBoard, PrintStream out, int maxTries) throws IllegalArgumentException{
+    static void gameLoopWithTarget(LocalDate currentDate, LocalDateTime currentTime, LocalDateTime endOfDay, Scanner scanner,
+                                   GameBoard gameBoard, PrintStream out, String target, int maxTries) throws IllegalArgumentException {
+        gameLoop(currentDate, currentTime, endOfDay, target, scanner, gameBoard, out, maxTries);
+    }
+
+    static void gameLoop(LocalDate currentDate, LocalDateTime currentTime, LocalDateTime endOfDay, String target,
+                                 Scanner scanner, GameBoard gameBoard, PrintStream out, int maxTries) throws IllegalArgumentException {
         boolean keepPlaying = true;
         do {
             LocalDateTime startTime = LocalDateTime.now();
 
-
-            if (currentTime.isAfter(endOfDay)){
+            if (currentTime.isAfter(endOfDay)) {
                 restartDay(currentDate);
                 gameBoard.startGame();
+                if (target != null) {
+                    gameBoard.setTarget(target);
+                }
                 gameDisplayLogic(out, maxTries, gameBoard, scanner);
-
             }
-            if((currentTime.isBefore(endOfDay))&&(gameCount<10)){
+
+            if ((currentTime.isBefore(endOfDay)) && (gameCount < 10)) {
                 gameBoard.startGame();
+                if (target != null) {
+                    gameBoard.setTarget(target);
+                }
                 gameDisplayLogic(out, maxTries, gameBoard, scanner);
-
-            }
-            else if(gameCount >= 10){
+            } else if (gameCount >= 10) {
                 out.println("you have reached the maximum number of games played today");
-                break;
-            }
-            try{
-                timeDelay(); //pause the game for 5 milliseconds
-            }
-            catch(AssertionError e){
-                System.err.println(e.getMessage());
                 break;
             }
 
             Duration elapsedTime = Duration.between(startTime, LocalDateTime.now());
             currentTime = currentTime.plus(elapsedTime);
             String playAgain = scanner.nextLine().trim();
-            if(!playAnotherGame(playAgain,scanner)){
+            if (!playAnotherGame(playAgain, scanner)) {
                 keepPlaying = false;
             }
         } while (keepPlaying);
     }
+
+//    static void gameLoopWithTarget(LocalDate currentDate, LocalDateTime currentTime, LocalDateTime endOfDay,Scanner scanner,
+//                         GameBoard gameBoard, PrintStream out, String target, int maxTries) throws IllegalArgumentException{
+//
+//        boolean keepPlaying = true;
+//
+//        do {
+//            LocalDateTime startTime = LocalDateTime.now();
+//
+//
+//            if (currentTime.isAfter(endOfDay)){
+//                restartDay(currentDate);
+//                gameBoard.startGame();
+//                gameBoard.setTarget(target);
+//                gameDisplayLogic(out, maxTries, gameBoard, scanner);
+//
+//            }
+//            if((currentTime.isBefore(endOfDay))&&(gameCount<10)){
+//                gameBoard.startGame();
+//                gameBoard.setTarget(target);
+//                gameDisplayLogic(out, maxTries, gameBoard, scanner);
+//
+//            }
+//            else if(gameCount >= 10){
+//                out.println("you have reached the maximum number of games played today");
+//                break;
+//            }
+//
+//            Duration elapsedTime = Duration.between(startTime, LocalDateTime.now());
+//            currentTime = currentTime.plus(elapsedTime);
+//            String playAgain = scanner.nextLine().trim();
+//            if(!playAnotherGame(playAgain,scanner)){
+//                keepPlaying = false;
+//            }
+//        } while (keepPlaying);
+//    }
+//
+//    static void gameLoop(LocalDate currentDate, LocalDateTime currentTime, LocalDateTime endOfDay,Scanner scanner,
+//                         GameBoard gameBoard, PrintStream out, int maxTries) throws IllegalArgumentException{
+//        boolean keepPlaying = true;
+//        do {
+//            LocalDateTime startTime = LocalDateTime.now();
+//
+//
+//            if (currentTime.isAfter(endOfDay)){
+//                restartDay(currentDate);
+//                gameBoard.startGame();
+//                gameDisplayLogic(out, maxTries, gameBoard, scanner);
+//
+//            }
+//            if((currentTime.isBefore(endOfDay))&&(gameCount<10)){
+//                gameBoard.startGame();
+//                gameDisplayLogic(out, maxTries, gameBoard, scanner);
+//
+//            }
+//            else if(gameCount >= 10){
+//                out.println("you have reached the maximum number of games played today");
+//                break;
+//            }
+//
+//
+//            Duration elapsedTime = Duration.between(startTime, LocalDateTime.now());
+//            currentTime = currentTime.plus(elapsedTime);
+//            String playAgain = scanner.nextLine().trim();
+//            if(!playAnotherGame(playAgain,scanner)){
+//                keepPlaying = false;
+//            }
+//        } while (keepPlaying);
+//    }
 
     private static void restartDay(LocalDate currentDate){
         resetGamesPlayed();
@@ -263,17 +282,7 @@ public class Commandle{
         gameCount = 0;
     }
 
-    public static void timeDelay() throws AssertionError{
-        try {
-            Thread.sleep(5); // Sleep for 5 milliseconds
-        } catch (InterruptedException e) {
-            // Handle any exceptions that may occur
-            System.err.println();
-            Thread.currentThread().interrupt();
-            throw new AssertionError("Time delay thread was interrupted, which is unexpected. Closing game...");
-        }
 
-    }
     private static boolean playAnotherGame(String playAgain, Scanner scanner){
         boolean output = true;
         while(true){

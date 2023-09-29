@@ -22,7 +22,7 @@ public class WordListFileReader {
             try (FileReader fr = new FileReader(file)) {
                 BufferedReader br = new BufferedReader(fr);  //creates a buffering character input stream
                 if(!br.ready()){
-                    throw new IllegalArgumentException("This file is empty");
+                    throw new IllegalArgumentException("Input file is empty");
                 }
                 String line;
                 while ((line = br.readLine()) != null) {
@@ -43,7 +43,7 @@ public class WordListFileReader {
 
         URL path = Commandle.class.getClassLoader().getResource(dictionaryFileName);
         if(path == null) {
-            throw new NullPointerException("This file cannot be found");
+            throw new NullPointerException("Input file cannot be found");
         }
         else{
             return path;

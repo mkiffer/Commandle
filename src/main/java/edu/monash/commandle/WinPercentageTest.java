@@ -2,6 +2,7 @@ package edu.monash.commandle;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -49,6 +50,8 @@ public class WinPercentageTest {
      * Test the correct percentage is shown winning 1 game out of 1
      */
     @Test
+    @DisplayName("Correct percentage shown if one game is won")
+
     void winningOneGame() {
         wordList.add("train");
         provideInput("train\nN\n");
@@ -62,6 +65,8 @@ public class WinPercentageTest {
      * Test the correct percentage is shown losing 1 game out of 1
      */
     @Test
+    @DisplayName("Correct percentage shown if one game is lost")
+
     void losingOneGame() {
         wordList.add("hello");
         wordList.add("train");
@@ -76,6 +81,8 @@ public class WinPercentageTest {
      * Test the correct percentage is shown winning all game out of 4
      */
     @Test
+    @DisplayName("Correct percentage shown if all games are won out of four")
+
     void winningAllGamesOutOfFour() {
         for(int i = 0; i<4; i++){
             wordList.add("hello");
@@ -110,6 +117,8 @@ public class WinPercentageTest {
      * Test the correct percentage is shown winning all game out of 4
      */
     @Test
+    @DisplayName("Correct percentage shown if all games are won out of ten")
+
     void winningAllGamesOutOfTen() {
         for(int i = 0; i<10; i++){
             wordList.add("hello");
@@ -190,6 +199,8 @@ public class WinPercentageTest {
      * Test the correct percentage is shown winning one game out of 4
      */
     @Test
+    @DisplayName("Correct percentage shown if one game is won out of four")
+
     void winningOneGamesOutOfFour() {
         wordList.add("hello");
         wordList.add("train");
@@ -226,6 +237,7 @@ public class WinPercentageTest {
      * Test the correct percentage is shown winning one game out of ten
      */
     @Test
+    @DisplayName("Correct percentage shown if one game is won out of ten")
     void winningOneGamesOutOfTen() {
         wordList.add("hello");
         wordList.add("train");
@@ -293,6 +305,8 @@ public class WinPercentageTest {
      * Test the correct percentage is shown winning no game out of 4
      */
     @Test
+    @DisplayName("Correct percentage shown if no games are won out of four")
+
     void winningNoGamesOutOfFour(){
         wordList.add("hello");
         wordList.add("train");
@@ -330,6 +344,8 @@ public class WinPercentageTest {
      * Test the correct percentage is shown winning no game out of 10
      */
     @Test
+    @DisplayName("Correct percentage shown if no games are won out of ten")
+
     void winningNoGamesOutOfTen() {
         wordList.add("hello");
         wordList.add("train");
