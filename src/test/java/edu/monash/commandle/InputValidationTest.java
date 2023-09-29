@@ -2,14 +2,18 @@ package edu.monash.commandle;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class InputValidationTest {
     private final InputStream systemIn = System.in;
@@ -54,6 +58,7 @@ public class InputValidationTest {
      * Test to ensure game will accept all capital letters where none are correct.
      * */
     @Test
+    @DisplayName("All capital letters with incorrect position")
     void allCapitalLetterInputWrongPosition(){
         wordList.add("pouty");
         provideInput("POUTY\n");
@@ -66,6 +71,7 @@ public class InputValidationTest {
      * Test to ensure game will accept all capital letters where one is correct.
      * */
     @Test
+    @DisplayName("All capital letters with one correct position")
     void allCapitalLetterInputOneCorrect(){
         wordList.add("slope");
         provideInput("SLOPE\n");
@@ -78,6 +84,7 @@ public class InputValidationTest {
      * Test to ensure game will accept all capital letters where one is partially correct.
      * */
     @Test
+    @DisplayName("All capital letters with one partial correct position")
     void allCapitalLetterInputOnePartial(){
         wordList.add("crone");
         provideInput("CRONE\n");
@@ -90,6 +97,7 @@ public class InputValidationTest {
      * Test to ensure game will accept capital letters that are incorrect.
      * */
     @Test
+    @DisplayName("One capital letters with all incorrect position")
     void oneCapitalLetterInputWrongPosition(){
         wordList.add("pouty");
         provideInput("Pouty\n");
@@ -102,6 +110,7 @@ public class InputValidationTest {
      * Test to ensure game will accept capital letters that are correct.
      * */
     @Test
+    @DisplayName("One capital letters with correct position")
     void oneCapitalLetterInputOneCorrect(){
         wordList.add("slope");
         provideInput("Slope\n");
@@ -114,6 +123,7 @@ public class InputValidationTest {
      * Test to ensure game will accept capital letters that are partially correct.
      * */
     @Test
+    @DisplayName("One capital letters with partially correct position")
     void oneCapitalLetterInputOnePartial(){
         wordList.add("crone");
         provideInput("cRone\n");
@@ -126,6 +136,7 @@ public class InputValidationTest {
      * Test to ensure game ignores trailing whitespace
      * */
     @Test
+    @DisplayName("Trailing whitespace ignored")
     void trailingWhitespace(){
         wordList.add("pouty");
         provideInput("pouty    \n");
@@ -138,6 +149,7 @@ public class InputValidationTest {
      * Test to ensure game ignores leading whitespace
      * */
     @Test
+    @DisplayName("Leading whitespace ignored")
     void leadingWhitespace(){
         wordList.add("pouty");
         provideInput("    pouty\n");
@@ -150,6 +162,7 @@ public class InputValidationTest {
      * Test to ensure game will not accept numeric characters
      * */
     @Test
+    @DisplayName("Numeric character input rejected")
     void numericCharacter(){
         errOut = new ByteArrayOutputStream();
         System.setErr(new PrintStream(errOut));
@@ -164,6 +177,7 @@ public class InputValidationTest {
      * Test to ensure game will not accept special characters
      * */
     @Test
+    @DisplayName("Non-alphanumeric character input rejected")
     void nonAlphaNumericCharacter(){
         errOut = new ByteArrayOutputStream();
         System.setErr(new PrintStream(errOut));
@@ -178,6 +192,7 @@ public class InputValidationTest {
      * Test to ensure game will not accept four letter words
      * */
     @Test
+    @DisplayName("Four letter word rejected")
     void fourLetterWord(){
         errOut = new ByteArrayOutputStream();
         System.setErr(new PrintStream(errOut));
@@ -192,6 +207,7 @@ public class InputValidationTest {
      * Test to ensure game will not accept words not in the wordlist
      * */
     @Test
+    @DisplayName("Word not on list rejected")
     void fiveLetterInvalidWord(){
         errOut = new ByteArrayOutputStream();
         System.setErr(new PrintStream(errOut));
@@ -206,6 +222,7 @@ public class InputValidationTest {
      * Test to ensure game will not accept six letter words
      * */
     @Test
+    @DisplayName("Six letter word rejected")
     void sixLetterWord(){
         errOut = new ByteArrayOutputStream();
         System.setErr(new PrintStream(errOut));
@@ -220,6 +237,7 @@ public class InputValidationTest {
      * Test to ensure game will not accept words with spaces
      * */
     @Test
+    @DisplayName("Five letter word with space rejected")
     void fiveLetterWordWithSpace(){
         errOut = new ByteArrayOutputStream();
         System.setErr(new PrintStream(errOut));
@@ -233,6 +251,7 @@ public class InputValidationTest {
      * Test to ensure game will not accept words that have already been used in a round
      * */
     @Test
+    @DisplayName("Repeated word rejected")
     void repeatedWord(){
         errOut = new ByteArrayOutputStream();
         wordList.add("train");
@@ -247,6 +266,7 @@ public class InputValidationTest {
      * Test to ensure game will end when "N" is provided.
      * */
     @Test
+    @DisplayName("N char will end game")
     void noWillEndGame(){
         wordList.add("train");
         provideInput("train\nN\n");
@@ -260,6 +280,7 @@ public class InputValidationTest {
      * Test to ensure game will not accept anything other than Y or N at end of game.
      * */
     @Test
+    @DisplayName("Char other than Y or N will not be accepted")
     void charOtherThanYesOrNoAtEndOfGame(){
         errOut = new ByteArrayOutputStream();
         System.setErr(new PrintStream(errOut));

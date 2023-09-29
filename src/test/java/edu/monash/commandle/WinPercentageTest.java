@@ -5,10 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -51,7 +53,6 @@ public class WinPercentageTest {
      */
     @Test
     @DisplayName("Correct percentage shown if one game is won")
-
     void winningOneGame() {
         wordList.add("train");
         provideInput("train\nN\n");
@@ -66,7 +67,6 @@ public class WinPercentageTest {
      */
     @Test
     @DisplayName("Correct percentage shown if one game is lost")
-
     void losingOneGame() {
         wordList.add("hello");
         wordList.add("train");
@@ -82,7 +82,6 @@ public class WinPercentageTest {
      */
     @Test
     @DisplayName("Correct percentage shown if all games are won out of four")
-
     void winningAllGamesOutOfFour() {
         for(int i = 0; i<4; i++){
             wordList.add("hello");
@@ -118,7 +117,6 @@ public class WinPercentageTest {
      */
     @Test
     @DisplayName("Correct percentage shown if all games are won out of ten")
-
     void winningAllGamesOutOfTen() {
         for(int i = 0; i<10; i++){
             wordList.add("hello");
@@ -200,7 +198,6 @@ public class WinPercentageTest {
      */
     @Test
     @DisplayName("Correct percentage shown if one game is won out of four")
-
     void winningOneGamesOutOfFour() {
         wordList.add("hello");
         wordList.add("train");
@@ -306,7 +303,6 @@ public class WinPercentageTest {
      */
     @Test
     @DisplayName("Correct percentage shown if no games are won out of four")
-
     void winningNoGamesOutOfFour(){
         wordList.add("hello");
         wordList.add("train");
@@ -345,7 +341,6 @@ public class WinPercentageTest {
      */
     @Test
     @DisplayName("Correct percentage shown if no games are won out of ten")
-
     void winningNoGamesOutOfTen() {
         wordList.add("hello");
         wordList.add("train");

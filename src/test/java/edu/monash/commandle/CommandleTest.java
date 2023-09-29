@@ -16,6 +16,7 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 class CommandleTest {
 
     private final InputStream systemIn = System.in;
@@ -67,7 +68,6 @@ class CommandleTest {
      */
     @Test
     @DisplayName("Game can be won on middle guess")
-
     void gameWonOnMiddleGuess(){
         wordList.add("shark");
         wordList.add("shard");
@@ -139,7 +139,7 @@ class CommandleTest {
      * Test to ensure gamecount resets after midnight
      */
 
-    @RepeatedTest(10)
+    @Test
     @DisplayName("Game count will reset after midnight")
     void midnightGamePlayed(){
         for(int i = 0; i<11; i++){
@@ -158,17 +158,10 @@ class CommandleTest {
         assertTrue( count<11 , "Game counter resets after midnight.");
     }
 
-
-
-
-
-
-
-
-            /**
-             * 4.1a
-             * Test to ensure target word is removed after winning
-             */
+    /**
+     * 4.1a
+     * Test to ensure target word is removed after winning
+     */
     @Test
     @DisplayName("Words are removed from word list when game is won")
     void usedWordsAreRemovedWhenWon(){
@@ -191,7 +184,6 @@ class CommandleTest {
      */
     @Test
     @DisplayName("Words are removed from word list when game is lost")
-
     void usedWordsAreRemovedWhenLost(){
         wordList.add("hello");
         wordList.add("train");
@@ -248,7 +240,6 @@ class CommandleTest {
 
     @Test
     @DisplayName("Game prints error message if non-existent file is passed")
-
     void fileNotFoundErrorMessage(){
         String[] args = new String[1];
         args[0] = "noFile.txt";
@@ -259,7 +250,6 @@ class CommandleTest {
 
     @Test
     @DisplayName("Game prints error message if blank file is passed")
-
     void fileIsEmptyErrorMessage() {
         String[] args = new String[1];
         args[0] = "blank.txt";
@@ -269,7 +259,6 @@ class CommandleTest {
 
     @Test
     @DisplayName("Game prints error message if scanner gets no input")
-
     void needMoreInputErrorMessage(){
         wordList.add("train");
         provideInput("train\n");

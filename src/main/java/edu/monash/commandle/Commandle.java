@@ -13,6 +13,7 @@ public class Commandle{
     private static int gameCount;
     private static LocalDateTime currentTime;
     private static LocalDateTime endOfDay;
+    private static FileReaderInterface fileReader;
 
     /**
      * Requirements:
@@ -29,7 +30,7 @@ public class Commandle{
      *
      * @param args Optional argument that points to a dictionary file of allowed words.
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         wins = 0;
         losses = 0;
         winPercentage = 0;
@@ -53,6 +54,9 @@ public class Commandle{
         }
         catch (IllegalArgumentException | NullPointerException e){
             System.err.print(e.getMessage());
+        }
+        catch(IOException e){
+            System.err.println(e.getMessage());
         }
 
     }

@@ -1,12 +1,11 @@
 package edu.monash.commandle;
 
 
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static edu.monash.commandle.GameBoard.Status.*;
@@ -26,15 +25,14 @@ class GameBoardUnitTest {
         Commandle.resetGamesPlayed();
     }
 
-    @Test
-    void isInTarget() {
-    }
+
 
     /**
      * 1A.1
      * Test case to verify that all letters are in the wrong position.
      */
     @Test
+    @DisplayName("All letters wrong")
     void allLetterWrongPosition() {
         gameBoard = new GameBoard("shard");
         char[] guess = "pouty".toCharArray();
@@ -50,6 +48,7 @@ class GameBoardUnitTest {
      * Test case to verify that one letter is correct in the guess but in the wrong position.
      */
     @Test
+    @DisplayName("One letter partially correct")
     void oneCorrectLetterWrongPostion() {
         gameBoard = new GameBoard("shard");
         char[] guess = "crone".toCharArray();
@@ -65,6 +64,7 @@ class GameBoardUnitTest {
      * Test case to verify that one letter is correct in the guess and in the correct position.
      */
     @Test
+    @DisplayName("One letter correct")
     void OneCorrectLetterCorrectPosition() {
         gameBoard = new GameBoard("shard");
         char[] guess = "slope".toCharArray();
@@ -80,6 +80,7 @@ class GameBoardUnitTest {
      * Test case to verify that all letters in the guess are correct but in the wrong positions.
      */
     @Test
+    @DisplayName("All letter correct but in incorrect position")
     void allLettersCorrectButIncorrectPosition() {
         gameBoard = new GameBoard("angle");
         char[] guess = "glean".toCharArray();
@@ -96,6 +97,7 @@ class GameBoardUnitTest {
      * one being correct and one being wrong.
      */
     @Test
+    @DisplayName("Double Letter: one not in word, one partially correct")
     void doubleLetterOnePartialOneWrong() {
         gameBoard = new GameBoard("chant");
         char[] guess = "dotty".toCharArray();
@@ -111,6 +113,7 @@ class GameBoardUnitTest {
      * Test case to verify that there is a double letter in the guess, one being correct and one being partial.
      */
     @Test
+    @DisplayName("Double Letter: one correct, one partially correct")
     void doubleLetterOneCorrectOnePartial() {
         gameBoard = new GameBoard("drama");
         char[] guess = "alpha".toCharArray();
@@ -126,6 +129,7 @@ class GameBoardUnitTest {
      * Test case to verify that there is a double letter in the guess, both being partial.
      */
     @Test
+    @DisplayName("Double Letter: both partially correct")
     void doubleLetterBothPartial() {
         gameBoard = new GameBoard("start");
         char[] guess = "dotty".toCharArray();
@@ -141,6 +145,7 @@ class GameBoardUnitTest {
      * Test case to verify that there is a double letter in the guess, one being correct and one being wrong.
      */
     @Test
+    @DisplayName("Double Letter: one correct, one not in word")
     void doubleLetterOneCorrectOneWrong() {
         gameBoard = new GameBoard("chant");
         char[] guess = "drama".toCharArray();
@@ -156,6 +161,7 @@ class GameBoardUnitTest {
      * Test case to verify that all letters in the guess are correct
      */
     @Test
+    @DisplayName("All letters are correct")
     void allLettersAreCorrect() {
         gameBoard = new GameBoard("shard");
         char[] guess = "shard".toCharArray();
@@ -166,6 +172,7 @@ class GameBoardUnitTest {
     }
 
     @Test
+    @DisplayName("Exception thrown with file is empty")
     void fileIsEmptyException() throws IllegalArgumentException {
         gameBoard = new GameBoard(new ArrayList<>());
         assertThrowsExactly(IllegalArgumentException.class, ()->{
@@ -174,6 +181,7 @@ class GameBoardUnitTest {
     }
 
     @Test
+    @DisplayName("Game board can detect win")
     void hasWon() {
         gameBoard = new GameBoard(new ArrayList<>());
 
@@ -183,6 +191,7 @@ class GameBoardUnitTest {
     }
 
     @Test
+    @DisplayName("Game board can check if word is in list")
     void containsCorrectWord() {
         ArrayList<String> list = new ArrayList<>();
         String word = "prone";

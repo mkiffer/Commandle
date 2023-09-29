@@ -8,13 +8,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class WordListFileReader {
     private String dictionaryFileName;
 
-    public WordListFileReader(String dictionaryFileName){
+    public WordListFileReader(String dictionaryFileName) {
         this.dictionaryFileName = dictionaryFileName;
     }
-    public List<String> getWordList(String dictionaryFileName) throws NullPointerException, IllegalArgumentException {
+    public List<String> getWordList(String dictionaryFileName) throws NullPointerException, IllegalArgumentException, IOException {
         final List<String> wordList = new ArrayList<>();
         try{
             URL path = getPath(dictionaryFileName);
@@ -30,7 +31,7 @@ public class WordListFileReader {
                 }
             }
             catch(IOException e){
-                System.err.println("There was an error reading the file");
+                throw new IOException("There was an error reading the file");
             }
         }
         catch (NullPointerException fileCannotBeFound){
