@@ -1,8 +1,6 @@
 package edu.monash.commandle;
 
 
-import edu.monash.commandle.Commandle;
-import edu.monash.commandle.GameBoard;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -193,13 +191,24 @@ class GameBoardUnitTest {
     }
 
     @Test
-    @DisplayName("Game board can check if word is in list")
-    void containsCorrectWord() {
+    @DisplayName("Game board can check if word is valid")
+    void containsValidWord() {
         ArrayList<String> list = new ArrayList<>();
         String word = "prone";
         list.add(word);
         gameBoard = new GameBoard(list);
 
         assertTrue(gameBoard.containsWord(word), "contains word");
+    }
+
+    @Test
+    @DisplayName("Game board can check if word is invalid")
+    void doesNotContainInvalidWord() {
+        ArrayList<String> list = new ArrayList<>();
+        String word = "prone";
+
+        gameBoard = new GameBoard(list);
+
+        assertFalse(gameBoard.containsWord(word), "does not contain word");
     }
 }

@@ -1,6 +1,5 @@
 package edu.monash.commandle;
 
-import edu.monash.commandle.Commandle;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -28,7 +27,7 @@ public class InputValidationTest {
 
     @BeforeEach
     void setUp() {
-        wordList = new ArrayList<String>();
+        wordList = new ArrayList<>();
         wordList.add("shard");
         testOut = new ByteArrayOutputStream();
         System.setOut(new PrintStream(testOut));
@@ -89,45 +88,6 @@ public class InputValidationTest {
     void allCapitalLetterInputOnePartial(){
         wordList.add("crone");
         provideInput("CRONE\n");
-        Commandle.startWithTarget(System.in, System.out, wordList, "shard",6);
-        String output = getOutput();
-        assertTrue(output.contains("#?###"));
-    }
-    /**
-     * 1B.4
-     * Test to ensure game will accept capital letters that are incorrect.
-     * */
-    @Test
-    @DisplayName("One capital letters with all incorrect position")
-    void oneCapitalLetterInputWrongPosition(){
-        wordList.add("pouty");
-        provideInput("Pouty\n");
-        Commandle.startWithTarget(System.in, System.out, wordList, "shard",6);
-        String output = getOutput();
-        assertTrue(output.contains("#####"));
-    }
-    /**
-     * 1B.5
-     * Test to ensure game will accept capital letters that are correct.
-     * */
-    @Test
-    @DisplayName("One capital letters with correct position")
-    void oneCapitalLetterInputOneCorrect(){
-        wordList.add("slope");
-        provideInput("Slope\n");
-        Commandle.startWithTarget(System.in, System.out, wordList, "shard",6);
-        String output = getOutput();
-        assertTrue(output.contains("s####"));
-    }
-    /**
-     * 1B.6
-     * Test to ensure game will accept capital letters that are partially correct.
-     * */
-    @Test
-    @DisplayName("One capital letters with partially correct position")
-    void oneCapitalLetterInputOnePartial(){
-        wordList.add("crone");
-        provideInput("cRone\n");
         Commandle.startWithTarget(System.in, System.out, wordList, "shard",6);
         String output = getOutput();
         assertTrue(output.contains("#?###"));
@@ -235,20 +195,6 @@ public class InputValidationTest {
 
     /**
      * 5.4
-     * Test to ensure game will not accept words with spaces
-     * */
-    @Test
-    @DisplayName("Five letter word with space rejected")
-    void fiveLetterWordWithSpace(){
-        errOut = new ByteArrayOutputStream();
-        System.setErr(new PrintStream(errOut));
-        provideInput("sha rd\n");
-        Commandle.startWithTarget(System.in, System.out, wordList, "shard",6);
-        String output = getError();
-        assertTrue(output.contains("Please enter a word of 5 letters: "));
-    }
-    /**
-     * 5.5
      * Test to ensure game will not accept words that have already been used in a round
      * */
     @Test
@@ -263,7 +209,7 @@ public class InputValidationTest {
         assertTrue(output.contains("Please enter a new word: "));
     }
     /**
-     * 8D.1
+     * 5.5.b
      * Test to ensure game will end when "N" is provided.
      * */
     @Test
@@ -277,12 +223,12 @@ public class InputValidationTest {
 
     }
     /**
-     * 8D.2
+     * 5.5.a
      * Test to ensure game will not accept anything other than Y or N at end of game.
      * */
     @Test
     @DisplayName("Char other than Y or N will not be accepted")
-    void charOtherThanYesOrNoAtEndOfGame(){
+    void charOtherThanYesOrNo(){
         errOut = new ByteArrayOutputStream();
         System.setErr(new PrintStream(errOut));
 

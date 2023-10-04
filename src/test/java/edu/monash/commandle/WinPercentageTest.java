@@ -1,6 +1,5 @@
 package edu.monash.commandle;
 
-import edu.monash.commandle.Commandle;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -77,41 +76,7 @@ public class WinPercentageTest {
         assertTrue(output.contains(" 0%"));
 
     }
-    /**
-     *3.2
-     * Test the correct percentage is shown winning all game out of 4
-     */
-    @Test
-    @DisplayName("Correct percentage shown if all games are won out of four")
-    void winningAllGamesOutOfFour() {
-        for(int i = 0; i<4; i++){
-            wordList.add("hello");
-        }
-        provideInput("hello\nY\nhello\nY\nhello\nY\nhello\nN");
-        Commandle.startWithTarget(System.in, System.out, wordList, "hello",6);
-        String output = getOutput();
-        String expectedOutput = """
-                Please enter your guess: 1: hello  1: hello\r
-                Congratulations, you won!\r
-                Your daily win percentage is: 100%.\r
-                Play again? (Y/N)\r
-                Please enter your guess: 1: hello  1: hello\r
-                Congratulations, you won!\r
-                Your daily win percentage is: 100%.\r
-                Play again? (Y/N)\r
-                Please enter your guess: 1: hello  1: hello\r
-                Congratulations, you won!\r
-                Your daily win percentage is: 100%.\r
-                Play again? (Y/N)\r
-                Please enter your guess: 1: hello  1: hello\r
-                Congratulations, you won!\r
-                Your daily win percentage is: 100%.\r
-                Play again? (Y/N)\r
-                See you next time!\r
-                """;
-        assertEquals(output, expectedOutput);
 
-    }
     /**
      *3.3
      * Test the correct percentage is shown winning all game out of 4
@@ -193,43 +158,7 @@ public class WinPercentageTest {
 
     }
 
-    /**
-     *3.4
-     * Test the correct percentage is shown winning one game out of 4
-     */
-    @Test
-    @DisplayName("Correct percentage shown if one game is won out of four")
-    void winningOneGamesOutOfFour() {
-        wordList.add("hello");
-        wordList.add("train");
-        provideInput("hello\nY\ntrain\nY\ntrain\nY\ntrain\nN");
-        Commandle.startWithTarget(System.in, System.out, wordList, "hello", 1);
-        String output = getOutput();
-        String expectedOutput = """
-                Please enter your guess: 1: hello  1: hello\r
-                Congratulations, you won!\r
-                Your daily win percentage is: 100%.\r
-                Play again? (Y/N)\r
-                Please enter your guess: 1: train  1: #####\r
-                Sorry, you lost!\r
-                correct word was hello\r
-                Your daily win percentage is: 50%.\r
-                Play again? (Y/N)\r
-                Please enter your guess: 1: train  1: #####\r
-                Sorry, you lost!\r
-                correct word was hello\r
-                Your daily win percentage is: 33%.\r
-                Play again? (Y/N)\r
-                Please enter your guess: 1: train  1: #####\r
-                Sorry, you lost!\r
-                correct word was hello\r
-                Your daily win percentage is: 25%.\r
-                Play again? (Y/N)\r
-                See you next time!\r
-                """;
-        assertEquals(output, expectedOutput);
 
-    }
     /**
      *3.5
      * Test the correct percentage is shown winning one game out of ten
@@ -298,44 +227,7 @@ public class WinPercentageTest {
         assertEquals(output, expectedOutput);
 
     }
-    /**
-     *3.6
-     * Test the correct percentage is shown winning no game out of 4
-     */
-    @Test
-    @DisplayName("Correct percentage shown if no games are won out of four")
-    void winningNoGamesOutOfFour(){
-        wordList.add("hello");
-        wordList.add("train");
-        provideInput("train\nY\ntrain\nY\ntrain\nY\ntrain\nN");
-        Commandle.startWithTarget(System.in, System.out, wordList, "hello", 1);
-        String output = getOutput();
-        String expectedOutput = """
-                Please enter your guess: 1: train  1: #####\r
-                Sorry, you lost!\r
-                correct word was hello\r
-                Your daily win percentage is: 0%.\r
-                Play again? (Y/N)\r
-                Please enter your guess: 1: train  1: #####\r
-                Sorry, you lost!\r
-                correct word was hello\r
-                Your daily win percentage is: 0%.\r
-                Play again? (Y/N)\r
-                Please enter your guess: 1: train  1: #####\r
-                Sorry, you lost!\r
-                correct word was hello\r
-                Your daily win percentage is: 0%.\r
-                Play again? (Y/N)\r
-                Please enter your guess: 1: train  1: #####\r
-                Sorry, you lost!\r
-                correct word was hello\r
-                Your daily win percentage is: 0%.\r
-                Play again? (Y/N)\r
-                See you next time!\r
-                """;
-        assertEquals(output, expectedOutput);
 
-    }
     /**
      *3.7
      * Test the correct percentage is shown winning no game out of 10

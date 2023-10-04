@@ -40,6 +40,8 @@ public class WordListFileReader {
         return wordList;
     }
 
+
+
     private URL getPath(String dictionaryFileName) throws NullPointerException{
 
         URL path = Commandle.class.getClassLoader().getResource(dictionaryFileName);
@@ -51,4 +53,7 @@ public class WordListFileReader {
         }
 
     }
+
+
+
 }
