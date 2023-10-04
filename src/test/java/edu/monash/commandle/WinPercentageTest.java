@@ -165,7 +165,7 @@ public class WinPercentageTest {
 
 
     /**
-     *3.5
+     *3.3
      * Test the correct percentage is shown winning one game out of ten
      */
     @Test
@@ -234,7 +234,7 @@ public class WinPercentageTest {
     }
 
     /**
-     *3.7
+     *3.4
      * Test the correct percentage is shown winning no game out of 10
      */
     @Test
