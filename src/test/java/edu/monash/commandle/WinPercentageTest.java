@@ -15,6 +15,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Test class designed to test the correct output for win percentages
+ */
 public class WinPercentageTest {
     private final InputStream systemIn = System.in;
     private final PrintStream systemOut = System.out;
@@ -22,6 +25,7 @@ public class WinPercentageTest {
     private List<String> wordList;
     private ByteArrayOutputStream testOut;
 
+    // Methods to capture and provide input/output streams
     private String getOutput() {
         return testOut.toString();
     }
@@ -41,6 +45,7 @@ public class WinPercentageTest {
 
     @AfterEach
     void tearDown() {
+        // Restore the original input and output streams, clear data, and reset game statistics
         System.setIn(systemIn);
         System.setOut(systemOut);
         wordList.clear();

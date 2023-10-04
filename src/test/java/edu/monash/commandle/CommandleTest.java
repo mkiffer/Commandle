@@ -63,6 +63,20 @@ class CommandleTest {
     }
 
     /**
+     * 6.1
+     * Test to verify that the game can be one on first guess.
+     */
+    @Test
+    void gameWonOnFirstGuess(){
+        String target = "brave";
+        wordList.add(target);
+        provideInput(target + "\nN");
+        Commandle.start(System.in, System.out, wordList);
+        String result = getOutput();
+        assertTrue(result.contains("won"), "Game can be won");
+    }
+
+    /**
      * 6.2
      * Test to ensure game can be won on middle guess
      */
@@ -213,31 +227,15 @@ class CommandleTest {
 
 
 
-    @Test
-    void gameCanBeWon(){
-
-        // set up a one-word list for easy testing
-        String target = "brave";
-        wordList.add(target);
-
-        // provide the correct guess, and then followed by "N" to signal not wanting to play again
-        provideInput(target + "\nN");
-
-        // simulate the gameplay start
-        Commandle.start(System.in, System.out, wordList);
-
-        // get output
-        String result = getOutput();
-
-        // verify that the output contains the word "won"
-        assertTrue(result.contains("won"), "Game can be won");
-    }
     private String getError() {
         return errOut.toString();
     }
 
 
-
+    /**
+     * 7A.2
+     * Test that error message is printed it non-existent file is passed
+     */
     @Test
     @DisplayName("Game prints error message if non-existent file is passed")
     void fileNotFoundErrorMessage(){
@@ -248,6 +246,10 @@ class CommandleTest {
 
     }
 
+    /**
+     * 7B.2
+     * Test that error message is printed when a blank file is passed.
+     */
     @Test
     @DisplayName("Game prints error message if blank file is passed")
     void fileIsEmptyErrorMessage() {
@@ -257,6 +259,10 @@ class CommandleTest {
         assertEquals("Input file is empty", getError());
     }
 
+    /**
+     * 7C.1
+     * Test function of error messages when the scanner class is interrupted.
+     */
     @Test
     @DisplayName("Game prints error message if scanner gets no input")
     void needMoreInputErrorMessage(){

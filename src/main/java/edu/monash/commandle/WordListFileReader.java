@@ -10,10 +10,8 @@ import java.util.List;
 
 
 public class WordListFileReader {
-    private String dictionaryFileName;
 
     public WordListFileReader(String dictionaryFileName) {
-        this.dictionaryFileName = dictionaryFileName;
     }
     public List<String> getWordList(String dictionaryFileName) throws NullPointerException, IllegalArgumentException, IOException {
         final List<String> wordList = new ArrayList<>();

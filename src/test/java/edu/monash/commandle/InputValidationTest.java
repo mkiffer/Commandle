@@ -35,6 +35,7 @@ public class InputValidationTest {
 
     @AfterEach
     void tearDown() {
+        // Restore the original input and output streams, clear data, and reset game statistics
         System.setIn(systemIn);
         System.setOut(systemOut);
         wordList.clear();

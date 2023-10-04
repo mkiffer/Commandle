@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import static edu.monash.commandle.GameBoard.Status.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Class containing unit tests for the gameboard class. Testing the ability to correctly identify letters.
+ */
 class GameBoardUnitTest {
     private GameBoard gameBoard;
 
@@ -171,15 +174,21 @@ class GameBoardUnitTest {
         assertArrayEquals(expected, result);
     }
 
+    /**
+     * 7B.2
+     * Test case to ensure an exception is thrown when a blank file is passed to the game.
+     */
     @Test
     @DisplayName("Exception thrown with file is empty")
     void fileIsEmptyException() throws IllegalArgumentException {
         gameBoard = new GameBoard(new ArrayList<>());
-        assertThrowsExactly(IllegalArgumentException.class, ()->{
-            gameBoard.startGame();
-        });
+        assertThrowsExactly(IllegalArgumentException.class, ()-> gameBoard.startGame());
     }
 
+    /**
+     * 6.5
+     * Test to verify the correct functioning of the hasWon method
+     */
     @Test
     @DisplayName("Game board can detect win")
     void hasWon() {
@@ -190,6 +199,10 @@ class GameBoardUnitTest {
         assertTrue(gameBoard.hasWon(result), "game is won");
     }
 
+    /**
+     *1A.14
+     * Test the function of the contains word method
+     */
     @Test
     @DisplayName("Game board can check if word is valid")
     void containsValidWord() {
@@ -200,7 +213,10 @@ class GameBoardUnitTest {
 
         assertTrue(gameBoard.containsWord(word), "contains word");
     }
-
+    /**
+     *1A.15
+     * Test the negative function of the contains word method
+     */
     @Test
     @DisplayName("Game board can check if word is invalid")
     void doesNotContainInvalidWord() {

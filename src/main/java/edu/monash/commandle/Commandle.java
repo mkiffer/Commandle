@@ -16,7 +16,6 @@ public class Commandle {
     private static double winPercentage;
 
     private static int gameCount;
-    private static LocalDateTime currentTime;
     private static LocalDateTime endOfDay;
 
     /**
@@ -78,7 +77,7 @@ public class Commandle {
         Scanner scanner = new Scanner(in);
         LocalDate currentDate = LocalDate.now();
         endOfDay = LocalTime.MAX.atDate(currentDate);
-        currentTime = LocalDateTime.now();
+        LocalDateTime currentTime = LocalDateTime.now();
         try {
             if (target == null) {
                 gameLoop(currentDate, currentTime, endOfDay, scanner, gameBoard, out, MAX_TRIES);
@@ -150,15 +149,13 @@ public class Commandle {
         if (result) {
             out.println("Congratulations, you won!");
             wins += 1;
-            calculateWinPercentage(wins, losses);
-            out.println("Your daily win percentage is: " + (int)winPercentage + "%.");
         } else {
             out.println("Sorry, you lost!");
             losses += 1;
             out.println("correct word was " + gameBoard.getTarget());
-            calculateWinPercentage(wins, losses);
-            out.println("Your daily win percentage is: " + (int)winPercentage + "%.");
         }
+        calculateWinPercentage(wins, losses);
+        out.println("Your daily win percentage is: " + (int)winPercentage + "%.");
         gameCount += 1;
         out.println("Play again? (Y/N)");
     }
